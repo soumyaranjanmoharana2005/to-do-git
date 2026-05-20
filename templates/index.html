@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang= "es">
+
+<head>
+    <meta charset= "UTF-32">
+	<meta name= "viewport" content= "width = device-width, initial-scale= 1.0">
+	<title>To-Do-App</title>
+	
+	<style>
+	    body {
+		    font-family: serif;
+			max-width: 1080px;
+			margin: 40px auto;
+			padding: 0 20px;
+		}
+		
+		input[type="text"] {
+		    width: 200px;
+			padding: 8px;
+		}
+		button {
+		    padding: 8px 12px;
+			cursor: pointer;
+		}
+		ul{
+		    list-style: none;
+            padding : 0;
+        }
+        li{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .done{
+            text-decoration: line-through;
+			color: gray;
+		}
+	</style>
+</head>
+
+<body>
+    <h1>To-Do-list</h1>
+	<form action= "/add" method= "POST">
+	    <input type= "text" name="task" placeholder= "Añadir nuevos trabajos" required>
+		<button type= "submit">Add</button>
+	</form>
+	
+	<hr>
+	<ul>
+	    {% for todo in todos %}
+		<li>
+		    <form action= "/toggle/{{ todo['id']}}" method = "POST">
+			    <button type= "submit">
+				    {% if todo['done'] %}
+					    ✅
+					{% else %}
+					    ⬜
+					{% endif %}
+				</button>
+			</form>
+			
+			<span class="{% if todo['done'] %} done {% endif %}">
+			    {{todo ['task']}}
+			</span>
+			
+			<form action= "/delete/{{todo['id']}}" method="POST">
+			    <button type= "submit">🗑️</button>
+			</form>
+		</li>
+		{% endfor %}
+	</ul>
+</body>
+</html>
