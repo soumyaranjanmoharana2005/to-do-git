@@ -1,18 +1,11 @@
-import sqlite3
+from flask_sqalchemy import SQLAlchemy
+from datetime import datetime
+    
+db =SQLAlchemy()
 
-def get_connection():
-    conn=sqlite3.connect("todos.db")    #N'oublie pas, it's for connection
-    conn.row_factory= sqlite3.Row      #row_factory is an attribute and we are setting that attributes to a value
-    return conn
-def init_db():
-    conn= get_connection()
-    conn.execute("""
-         CREATE TABLE IF NOT EXISTS todos (
-            id      INTEGER PRIMARY KEY AUTOINCREMENT,
-            task    TEXT NOT NULL,
-            done    INTEGER DEFAULT 0,
-            created TEXT DEFAULT (datetime('now'))
-           )
-        """)
-    conn.commit()
-    conn.close()
+class Todo(db.model):
+    __tablename__= "Todos"
+    id = db.Column(db.integer, primary_key= True, autoincrement=True)
+    task= db.Column(db.String, nullable=False) #to avoid blank tasks
+    done= db.Column(db.Integer, default=0)
+    created= db.Column(db.DateTime, default= datetime.timezone.utc) #datetime.utcnow is deprecated and now has been replaced by datetime.timezone.utc
