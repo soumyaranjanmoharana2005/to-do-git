@@ -26,3 +26,12 @@ def add_todo():
         db.session.add(todo)
         db.session.commit()
     return redirect(url_for("index"))
+
+@app.route("/toggle/<int:id>", methods= ["POST"])
+def toggle_todo(id):
+    todo=Todo.query.get(id)
+    if bool(todo)==True:
+        todo.done= 1- todo.done
+        db.session.commit()
+    return redirect(url_for("index"))
+
