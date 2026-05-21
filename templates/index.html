@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang= "es">
+<html lang= "en">
 
 <head>
     <meta charset= "UTF-32">
@@ -42,7 +42,7 @@
 <body>
     <h1>To-Do-list</h1>
 	<form action= "/add" method= "POST">
-	    <input type= "text" name="task" placeholder= "Añadir nuevos trabajos" required>
+	    <input type= "text" name="task" placeholder= "Add new todos" required>
 		<button type= "submit">Add</button>
 	</form>
 	
@@ -50,21 +50,24 @@
 	<ul>
 	    {% for todo in todos %}
 		<li>
-		    <form action= "/toggle/{{ todo['id']}}" method = "POST">
+		    <form action= "/toggle/{{todo.id}}" method = "POST">
 			    <button type= "submit">
-				    {% if todo['done'] %}
+				    {% if todo.done %}
 					    ✅
 					{% else %}
-					    ⬜
+					    ▢
 					{% endif %}
 				</button>
 			</form>
 			
-			<span class="{% if todo['done'] %} done {% endif %}">
-			    {{todo ['task']}}
+			<span class="{% if todo.done %} done {% endif %}">
+			    {{todo.task}}
+				<small style= "color: blue;">
+				    {{todo.created.strftime('%d %b %y, %I:%M %p')}}
+				</small>
 			</span>
 			
-			<form action= "/delete/{{todo['id']}}" method="POST">
+			<form action= "/delete/{{todo.id}}" method="POST">
 			    <button type= "submit">🗑️</button>
 			</form>
 		</li>
